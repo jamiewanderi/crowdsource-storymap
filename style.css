@@ -1,0 +1,36 @@
+html, body, #container {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  padding-top: 50px;
+}
+
+#map {
+  width: 65%;
+  height: 100%;
+  box-shadow: 0 0 10px rgba(0,0,0,0.55);
+}
+
+#sidebar {
+  width: 35%;
+  height: 100%;
+  float: right;
+  padding-left: 15px;
+}
+
+.navbar .navbar-brand {
+  font-weight: bold;
+  font-size: 25px;
+  color: #FFFFFF;
+}
+
+.navbar {
+  background-image: linear-gradient(to bottom, #2b6988 0%, #1f4b61 100%);
+}
+
+.navbar-inverse .navbar-nav>li>a {
+  color: #fff;
+}
