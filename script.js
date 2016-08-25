@@ -1,29 +1,32 @@
 function main() {
-    cartodb.createVis('map', 'https://zacharyrobinson.carto.com/api/v2/viz/22e41d22-698b-11e6-b235-0ef24382571b/viz.json', {
-        shareable: false,
-        title: false,
-        description: false,
-        search: false,
-        tiles_loader: true,
-        center_lat: 35.110756,
-        center_lon: -120.591667,
-        zoom: 14
-    })
-    .done(function(vis, layers) {
-          // layer 0 is the base layer, layer 1 is cartodb layer
-          // setInteraction is disabled by default
-          layers[1].setInteraction(true);
-          layers[1].on('featureOver', function(e, latlng, pos, data) {
-            cartodb.log.log(e, latlng, pos, data);
-          });
-          // you can get the native map to work with it
-          var map = vis.getNativeMap();
-          // now, perform any operations you need
-          // map.setZoom(3);
-          // map.panTo([50.5, 30.5]);
-        })
-        .error(function(err) {
-          console.log(err);
-        });
-      }
+
+// create a map in the "map" div, set the view to a given place and zoom
+var map = L.map('map', {
+    drawControl: true
+}).setView([35.110756 , -120.591667], 14);
+
+// add an OpenStreetMap tile layer
+L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiemFjaHJvYmluc29uIiwiYSI6IjZXWDh0enMifQ.P_x5U3esb8BJM9apOhn4Kg', {
+    attribution: '© Mapbox © OpenStreetMap © DigitalGlobe'
+}).addTo(map);
+}
+
+function draw(){
+// Initialise the FeatureGroup to store editable layers
+var drawnItems = new L.FeatureGroup();
+map.addLayer(drawnItems);
+
+// Initialise the draw control and pass it the FeatureGroup of editable layers
+var drawControl = new L.Control.Draw({
+    edit: {
+        featureGroup: drawnItems
+    }
+});
+map.addControl(drawControl);
+
+}
+
 window.onload = main;
+
+
+
