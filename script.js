@@ -29,7 +29,68 @@ var drawControl = new L.Control.Draw({
     }
 });
 map.addControl(drawControl);
+    
+var url = "https://zacharyrobinson.carto.com/api/v2/sql?format=geojson&q=SELECT cartodb_id, the_geom FROM usercomments";
+    $.getJSON(url, function(data){
+        geojsonLayer = L.geoJson(data, {
+            onEachFeature: function (feature, layer){
+                layer.cartodb_id=feature.properties.cartodb_id;
+                drawnItems.addLayer(layer);
+            }
+        });
+        map.addLayer(drawnItems);
+    })
 
+    
+function persistOnCartoDB(action,layers) { 
+    var cartodb_ids=[]; 
+    var geojsons=[];  
+    
+    switch(action) { 
+        case "UPDATE": 
+            if (layers.getLayers().length<1) return;  
+            
+            layers.eachLayer(function(layer) { 
+                cartodb_ids.push(layer.cartodb_id); 
+                geojsons.push("'"+JSON.stringify(layer.toGeoJSON())+"'"); 
+            }); 
+            break;  
+        case "INSERT": 
+            cartodb_ids.push(-1); 
+            geojsons.push("'"+JSON.stringify(layers.toGeoJSON())+"'"); 
+            break;  
+        case "DELETE": 
+            layers.eachLayer(function(layer) { 
+                cartodb_ids.push(layer.cartodb_id); 
+                geojsons.push("''"); 
+            }); 
+            break; 
+    }  
+    
+    var sql = "SELECT usercomments(ARRAY["; 
+    sql += cartodb_ids.join(","); 
+    sql += "],ARRAY["; 
+    sql += geojsons.join(","); 
+    sql += "]);";  
+    
+    console.log("persisting... " + sql ); 
+    $.ajax({ 
+        type: 'POST', 
+        url: 'https://zacharyrobinson.carto.com/api/v2/sql', 
+        crossDomain: true, 
+        data: {"q":sql}, 
+        dataType: 'json', 
+        success: function(responseData, textStatus, jqXHR) { 
+            console.log("Data saved");  
+            if (action=="INSERT") 
+                layers.cartodb_id = responseData.rows[0].cartodb_id; 
+        }, 
+        error: function (responseData, textStatus, errorThrown) { 
+            console.log("Problem saving the data"); 
+        } 
+    }); 
+}
+    
 }
 
 window.onload = main;
