@@ -38,7 +38,7 @@ function main() {
     });
         
     map.addControl(drawControl);
-
+    });
 
     map.on('draw:created', function(e) {
         drawnItems.addLayer(e.layer);
@@ -109,6 +109,5 @@ function main() {
             }
         });
     }
-});
 }
 window.onload = main;
