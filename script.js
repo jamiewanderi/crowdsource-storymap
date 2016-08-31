@@ -4,8 +4,8 @@ function main() {
     var map = L.map('map').setView([35.110756 , -120.591667], 14);
 
     // add a tile layer
-    L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiemFjaHJvYmluc29uIiwiYSI6IjZXWDh0enMifQ.P_x5U3esb8BJM9apOhn4Kg', {
-    attribution: '© Mapbox © OpenStreetMap © DigitalGlobe'
+    L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiemFjaHJvYmluc29uIiwiYSI6IjZXWDh0enMifQ.P_x5U3esb8BJM9apOhn4Kg', {
+    attribution: '© Mapbox © OpenStreetMap'
     }).addTo(map);
     
     // initialize the FeatureGroup to store editable layers
