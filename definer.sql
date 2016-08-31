@@ -1,11 +1,10 @@
 DROP FUNCTION IF EXISTS leaflet_upsert_usercomments(int[], text[]);
 
 -- Returns a set of op,cartodb_id values where op means:
---
 --  deleted: -1
 --  updated: 0
 --  inserted: 1
---
+
 CREATE OR REPLACE FUNCTION leaflet_upsert_usercomments(
   cartodb_ids integer[],
   geojsons text[])
@@ -29,14 +28,14 @@ LOOP
 END LOOP;
 
 sql := sql || '), do_update AS ('
-      || 'UPDATE usercomments p '
+      || 'UPDATE leaflet_data p '
       || 'SET the_geom=n.the_geom FROM n WHERE p.cartodb_id = n.cartodb_id '
       || 'AND n.the_geom IS NOT NULL '
       || 'RETURNING p.cartodb_id ), do_delete AS ('
       || 'DELETE FROM usercomments p WHERE p.cartodb_id IN ('
       || 'SELECT n.cartodb_id FROM n WHERE cartodb_id >= 0 AND '
       || ' n.the_geom IS NULL ) RETURNING p.cartodb_id ), do_insert AS ('
-      || 'INSERT INTO usercomments (the_geom)'
+      || 'INSERT INTO leaflet_data (the_geom)'
       || 'SELECT n.the_geom FROM n WHERE n.cartodb_id < 0 AND '
       || ' n.the_geom IS NOT NULL RETURNING cartodb_id ) '
       || 'SELECT 0,cartodb_id FROM do_update UNION ALL '

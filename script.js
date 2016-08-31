@@ -12,7 +12,7 @@ function main() {
     var drawnItems = new L.FeatureGroup();
     
     //add previous data
-    var url = "https://zacharyrobinson.carto.com/api/v2/sql?format=geojson&q=SELECT cartodb_id,the_geom FROM usercomments";
+    var url = "https://zacharyrobinson.carto.com/api/v2/sql?format=geojson&q=SELECT cartodb_id,the_geom FROM leaflet_data";
     $.getJSON(url, function(data) {
         geojsonLayer = L.geoJson(data, {
             onEachFeature: function(feature, layer) {
