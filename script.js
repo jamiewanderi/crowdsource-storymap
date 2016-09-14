@@ -63,13 +63,13 @@ function main() {
 
                 layers.eachLayer(function(layer) {
                     cartodb_ids.push(layer.cartodb_id);
-                    geojsons.push("'" + JSON.stringify(layer.toGeoJSON()) + "'");
+                    geojsons.push("'" + JSON.stringify(layer.toGeoJSON().geometry) + "'");
                 });
                 break;
 
             case "INSERT":
                 cartodb_ids.push(-1);
-                geojsons.push("'" + JSON.stringify(layers.toGeoJSON()) + "'");
+                geojsons.push("'" + JSON.stringify(layers.toGeoJSON().geometry) + "'");
                 break;
 
             case "DELETE":
