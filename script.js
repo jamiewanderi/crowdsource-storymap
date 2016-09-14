@@ -80,7 +80,7 @@ function main() {
                 break;
         }
 
-        var sql = "SELECT leaflet_upsert_usercomments(ARRAY[";
+        var sql = "SELECT testfunction(ARRAY[";
         sql += cartodb_ids.join(",");
         sql += "],ARRAY[";
         sql += geojsons.join(",");
