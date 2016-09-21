@@ -1,113 +1,109 @@
 function main() {
+    var satellite = L.tileLayer('https://api.mapbox.com/styles/v1/zachrobinsonalta/citagtu5u000k2iqbtmpc09f3/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiemFjaHJvYmluc29uYWx0YSIsImEiOiJjaXQyMjNucXQwc3NvMnBraHF5cnQ3M3g0In0.zXNUiATCOwYfTikOPJ311Q', {
+    attribution: '© Mapbox © OpenStreetMap © DigitalGlobe'}),
+        streets = L.tileLayer('https://api.mapbox.com/styles/v1/zachrobinsonalta/citahgib4000o2iqbp4k46wg1/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiemFjaHJvYmluc29uYWx0YSIsImEiOiJjaXQyMjNucXQwc3NvMnBraHF5cnQ3M3g0In0.zXNUiATCOwYfTikOPJ311Q', {attribution: '© Mapbox © OpenStreetMap'});
     
-    // create a map in the "map" div, set the view to a given place and zoom
-    var map = L.map('map').setView([35.110756 , -120.591667], 14);
-
-    // add a tile layer
-    L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiemFjaHJvYmluc29uIiwiYSI6IjZXWDh0enMifQ.P_x5U3esb8BJM9apOhn4Kg', {
-    attribution: '© Mapbox © OpenStreetMap'
+    var map = L.map('map', {
+        center: [35.1108, -120.5917],
+        zoom: 14,
+        layers: [streets, satellite]
+    });
+    
+    var baseMaps = {
+        "Streets": streets,
+        "Satellite": satellite
+    };
+    
+    L.control.layers(baseMaps,null,{
+        collapsed:false,
+        position: 'topleft'
     }).addTo(map);
     
-    // initialize the FeatureGroup to store editable layers
-    var drawnItems = new L.FeatureGroup();
+    //map.on('click', function(e) {
+        //if(typeof(eventMarker)==='undefined'){
+            //eventMarker = new L.marker(e.latlng,{
+                //draggable:true
+            //});
+            //eventMarker.addTo(map).bindPopup("Drag me!").openPopup();
+        //}
+        //else {
+            //eventMarker.setLatLng(e.latlng);
+        //}
+    //});
     
-    //add previous data
-    var url = "https://zacharyrobinson.carto.com/api/v2/sql?format=geojson&q=SELECT cartodb_id,the_geom FROM leaflet_data";
-    $.getJSON(url, function(data) {
-        geojsonLayer = L.geoJson(data, {
-            onEachFeature: function(feature, layer) {
-                layer.cartodb_id = feature.properties.cartodb_id;
-                drawnItems.addLayer(layer);
-            }
-        });
-        map.addLayer(drawnItems);
-
-    // initialize the draw control and pass it the FeatureGroup of editable layers
-    var drawControl = new L.Control.Draw({
-        position: 'topright',
-        draw: {
-            polyline: false,
-            polygon: false,
-            rectangle: false,
-            circle: false,
-            marker: true,
-        },
-        edit: {
-            featureGroup: drawnItems
-        }
-    });
-        
-    map.addControl(drawControl);
-    });
-
-    map.on('draw:created', function(e) {
-        drawnItems.addLayer(e.layer);
-        persistOnCartoDB("INSERT", e.layer);
-    });
-
-    map.on('draw:edited', function(e) {
-        persistOnCartoDB("UPDATE", e.layers);
-    });
-
-    map.on('draw:deleted', function(e) {
-        persistOnCartoDB("DELETE", e.layers);
-    });
-
-    function persistOnCartoDB(action, layers) {
-        var cartodb_ids = [];
-        var geojsons = [];
-
-        switch (action) {
-            case "UPDATE":
-                if (layers.getLayers().length < 1) return;
-
-                layers.eachLayer(function(layer) {
-                    cartodb_ids.push(layer.cartodb_id);
-                    geojsons.push("'" + JSON.stringify(layer.toGeoJSON().geometry) + "'");
-                });
-                break;
-
-            case "INSERT":
-                cartodb_ids.push(-1);
-                geojsons.push("'" + JSON.stringify(layers.toGeoJSON().geometry) + "'");
-                break;
-
-            case "DELETE":
-                layers.eachLayer(function(layer) {
-                    cartodb_ids.push(layer.cartodb_id);
-                    geojsons.push("''");
-                });
-                break;
-        }
-
-        var sql = "SELECT testfunction(ARRAY[";
-        sql += cartodb_ids.join(",");
-        sql += "],ARRAY[";
-        sql += geojsons.join(",");
-        sql += "]);";
-
-        console.log("persisting... https://zacharyrobinson.carto.com/api/v2/sql?q=" + sql);
-        $.ajax({
-            type: 'POST',
-            url: 'https://zacharyrobinson.carto.com/api/v2/sql',
-            crossDomain: true,
-            data: {
-                "q": sql
-            },
-            dataType: 'json',
-            success: function(responseData, textStatus, jqXHR) {
-                console.log("Data saved");
-
-                if (action == "INSERT")
-                    layers.cartodb_id = responseData.rows[0].cartodb_id;
-            },
-            error: function(responseData, textStatus, errorThrown) {
-                console.log("Problem saving the data");
-                console.log(responseData);
-                console.log(textStatus);
-                console.log(errorThrown);
-            }
-        });
+    
+    var extent = new Waypoint({
+    element: document.getElementById('extent'),
+    handler: function(direction) {
+        map.setView(new L.LatLng(35.1108, -120.5917),14);
     }
+    });
+    
+    zoneOne = new Waypoint({
+    element: document.getElementById('zoneOne'),
+    handler: function(direction) {
+        map.setView(new L.LatLng(35.120959, -120.591593),17);
+    }, offset: '25%'
+    });
+    
+    zoneTwo = new Waypoint({
+    element: document.getElementById('zoneTwo'),
+    handler: function(direction) {
+        map.setView(new L.LatLng(35.115530, -120.591537),17);
+    }, offset: '25%'
+    });
+    
+    zoneThree = new Waypoint({
+    element: document.getElementById('zoneThree'),
+    handler: function(direction) {
+        map.setView(new L.LatLng(35.109260, -120.591575),17);
+    }, offset: '25%'
+    });
+    
+    zoneFour = new Waypoint({
+    element: document.getElementById('zoneFour'),
+    handler: function(direction) {
+        map.setView(new L.LatLng(35.102648, -120.591637),16);
+    }, offset: '50%'
+    });
+    
+    $('#dialogContent').dialog({
+        autoOpen: false,
+        width: 400,
+        height: 375,
+        title: false,
+        draggable: true,
+        position: { at: "center center", of:$('#rightside') }
+    });
+    $('#opener').click(function() {
+        $('#dialogContent').dialog('open');
+        $('.ui-dialog-titlebar').hide();
+        return false;
+    });
+    $('#opener').click(function() {
+        if(typeof(dropPin)==='undefined'){
+            dropPin = new L.marker([35.120959, -120.591593],{
+            draggable: true
+        }).addTo(map).bindPopup("Drag Me!").openPopup();
+        }
+        else {
+            dropPin.setLatLng(e.latlng);
+        }
+    });
+    $('#closer').click(function() {
+        $('#dialogContent').dialog('close');
+        return false;
+    })
+    
+    var comment = document.getElementById('comment')
+    //var commentLen = userInput.width()
+    $('#closer').click(function() {
+        if(typeof(dropPin)!=='undefined') {
+            dropPin.bindPopup(comment, {
+                maxWidth: 1000,
+            }).openPopup();
+        }
+    })
+    
 }
 window.onload = main;

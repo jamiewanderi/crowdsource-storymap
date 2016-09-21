@@ -1,84 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head profile="http://www.w3.org/2005/10/profile">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <head>
+        <!-- Required meta tags always come first -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        
+        <!-- Title -->
+        <title>Title</title>
 
-    <title>Crowdsource StoryMap</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.3.2/leaflet.draw.css" />
-    <link rel="stylesheet" href="style.css" media="screen">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/themes/smoothness/jquery-ui.css">
+        <link rel="stylesheet" href="style.css" />
+        
+        
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+        <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
+        <script src="noframework.waypoints.min.js"></script>
+        <script src="validator.min.js"></script>
+        <script src="script.js"></script>
+    </head>
+    
+    <body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="leftcol">
+                    <div id="map"></div>
+                </div>
+                <div class="rightcol">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h1 id="extent">Halcyon Road Complete Streets Plan</h1>
+                            <p class="lead">The City of Arroyo Grande is developing a plan to improve safety, mobility and accessibility for all users along the Halcyon Road corridor which extends from its junction with Highway 101 to its intersection with State Route 1. The interactive map provided on this page will allow you to view project information, post comments on existing issues and suggest ideas for improvement.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <img src="img/page1.jpg" class="img-responsive col-xs-12">
+                    </div>
+                    <div class="row">
+                        <a href="img/page1.jpg" target="_blank" class="col-xs-12 textcenter"><i>Enlarge Image</i></a>
+                    </div>
+                    <br>
+                    <p>For the purposes of developing a Complete Streets Blueprint for Halcyon Road which is sensitive to the context of its adjoining land uses, the corridor is divided into four "Context Zones" as presented below and on the map to the left.</p>
+                    
+                    <div class="row">
+                        <p class="col-xs-12 textcenter lead"><i>Scroll down to learn more about each Zone</i></p>
+                    </div>
+                    
+                    <br>
+                    <hr class="featurette-divider" id="zoneOne">
+                    <br>
+                
+                    <h2>Context Zone 1: El Camino Real to East Grand Avenue</h2>
+                    <p>Context Zone 1 is <strong>urban</strong> in nature, with predominantly commercial uses. North Halcyon Road in this zone is currently one lane in each direction, with sidewalks generally provided on both sides, no bike lanes, and on-street parking allowed in most cases. Click the image below to view more detail and use the commenting tool to add your specific concerns or ideas.</p>
+                    
+                    <div class="row">
+                        <div class="col-xs-3"></div>
+                        <div class="col-xs-6">
+                            <a class="btn btn-success col-xs-12" id="opener">Share Your Feedback</a>
+                        </div>
+                        <div class="col-xs-3"></div>
+                    </div>
+                    <div id="dialogContent">
+                        <h4 class="text-center">Drag the marker to your desired location, then fill out the following information.</h4>
+                        <label for="zipcode"><br>What is your Zip Code?</label>
+                        <div class="input-group col-xs-4">
+                            <input type="text" class="form-control" id="zipcode" placeholder="00000">
+                        </div>
+                            <label for="comment"><br>Comment</label>
+                            <div class="input-group col-xs-12">
+                                <input type="text" class="form-control" id="comment">
+                            </div>
+                        <br><button class="btn btn-primary" id="closer">Submit Comment</button>
+                    </div>
+                    
+                    
+                    <br><br>
 
-    <link rel="shortcut icon" href="favicon.ico" />
+                    <div class="row" id="rightside">
+                        <div class="col-xs-12">
+                            <img src="img/page2.jpg" class="img-responsive"/>
+                                <div class="text-center">
+                                    <a href="img/page2.jpg" target="_blank">Enlarge Image</a>
+                                </div>
+                        </div>
+                    </div>
+                    
+                    <br>
+                    <hr class="featurette-divider" id="zoneTwo">
+                    <br>
+                
+                    <h2>Context Zone 2: East Grand Avenue to Fair Oaks Avenue</h2>
+                    <p>Context Zone 2 is an <strong>urban transition</strong> zone, with a mix of residential and commercial uses including the Arroyo Grande Community Hospital. South Halcyon Road in this zone is currently two lanes in each direction, with sidewalks generally provided on both sides, no bike lanes, and on-street parking allowed in some locations. Click the image below to view more detail and use the commenting tool to add your specific concerns or ideas.</p>
+                    
+                    <div class="row">
+                        <div class="col-xs-3"></div>
+                        <div class="col-xs-6">
+                            <a class="btn btn-success col-xs-12" id="opener">Share Your Feedback</a>
+                        </div>
+                        <div class="col-xs-3"></div>
+                    </div>
+                    
+                    
+                    <br><br>
 
-    <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>  
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.3.2/leaflet.draw-src.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.3.2/leaflet.draw.js"></script>
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-    <script src="script.js"></script>
-      
-  </head>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <img src="img/page3.jpg" class="img-responsive"/>
+                                <div class="text-center">
+                                    <a href="img/page3.jpg" target="_blank">Enlarge Image</a>
+                                </div>
+                        </div>
+                    </div>
+                    
+                    <br>
+                    <hr class="featurette-divider" id="zoneThree">
+                    <br>
+                
+                    <h2>Context Zone 3: Fair Oaks Avenue to The Pike</h2>
+                    <p>Context Zone 3 is a <strong>suburban</strong> neighborhood zone, with primarily residential uses including Harloe Elementary School. South Halcyon Road in this zone transitions from two lanes to one lane in each direction south of Farroll Avenue, with sidewalks generally provided on both sides, no bike lanes, and on-street parking allowed in most locations. Click the image below to view more detail and use the commenting tool to add your specific concerns or ideas.</p>
+                    
+                    <div class="row">
+                        <div class="col-xs-3"></div>
+                        <div class="col-xs-6">
+                            <a class="btn btn-success col-xs-12" id="opener">Share Your Feedback</a>
+                        </div>
+                        <div class="col-xs-3"></div>
+                    </div>
+                    
+                    
+                    <br><br>
 
-  <body>
-
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <div class="navbar-icon-container">
-            <a href="#" class="navbar-icon pull-right visible-xs" id="nav-btn"><i class="fa fa-bars fa-lg white"></i></a>
-            <a href="#" class="navbar-icon pull-right visible-xs" id="sidebar-toggle-btn"><i class="fa fa-search fa-lg white"></i></a>
-          </div>
-          <a class="navbar-brand" href="#">Crowdsource StoryMap</a>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <img src="img/page4.jpg" class="img-responsive"/>
+                                <div class="text-center">
+                                    <a href="img/page4.jpg" target="_blank">Enlarge Image</a>
+                                </div>
+                        </div>
+                    </div>
+                    
+                    <br>
+                    <hr class="featurette-divider" id="zoneFour">
+                    <br>
+                
+                    <h2>Context Zone 4: The Pike to State Route 1</h2>
+                    <p>Context Zone 4 is a <strong>rural</strong> zone lying in the County of San Luis Obispo, with a mix of rural residential and agricultural uses and in addition the townsite of Halcyon. South Halcyon Road in this zone transitions one lane in each direction, with no sidewalks, paved shoulders which in some cases act as bike lanes, and no on-street parking. Click the image below to view more detail and use the commenting tool to add your specific concerns or ideas.</p>
+                    
+                    <div class="row">
+                        <div class="col-xs-3"></div>
+                        <div class="col-xs-6">
+                            <a class="btn btn-success col-xs-12" id="opener">Share Your Feedback</a>
+                        </div>
+                        <div class="col-xs-3"></div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <img src="img/page5.jpg" class="img-responsive"/>
+                                <div class="text-center">
+                                    <a href="img/page5.jpg" target="_blank">Enlarge Image</a>
+                                </div>
+                        </div>
+                    </div>
+                   
+                    
+                    <br><br>
+                    
+        
+                
+                </div>
+            </div>
         </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="about-btn"><i class="fa fa-question-circle white"></i>&nbsp;&nbsp;About</a></li>
-            <li class="dropdown">
-              <a id="toolsDrop" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-globe white"></i>&nbsp;&nbsp;Tools <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="full-extent-btn"><i class="fa fa-arrows-alt"></i>&nbsp;&nbsp;Zoom To Full Extent</a></li>
-                <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="legend-btn"><i class="fa fa-picture-o"></i>&nbsp;&nbsp;Show Legend</a></li>
-                <li class="divider hidden-xs"></li>
-                <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="login-btn"><i class="fa fa-user"></i>&nbsp;&nbsp;Login</a></li>
-              </ul>
-            </li>
-            <li class="dropdown">
-                <a class="dropdown-toggle" id="downloadDrop" href="#" role="button" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-cloud-download white"></i>&nbsp;&nbsp;Download <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li><a href="" download="boroughs.geojson" target="_blank" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-download"></i>&nbsp;&nbsp;Sample Download</a></li>
-                  <li><a href="" download="subways.geojson" target="_blank" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-download"></i>&nbsp;&nbsp;Sample Download</a></li>
-                  <li><a href="" download="theaters.geojson" target="_blank" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-download"></i>&nbsp;&nbsp;Sample Download</a></li>
-                  <li><a href="" download="museums.geojson" target="_blank" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-download"></i>&nbsp;&nbsp;Sample Download</a></li>
-                </ul>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <div id="container">
-      <div id="sidebar">
-          <h1>Project Information</h1>
-          <p class="lead">Project content content content</p>
-      </div>
-      <div id="map">
-      </div>
-
-    </div>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.3.2/leaflet.draw-src.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.3.2/leaflet.draw.js"></script>
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-    <script src="script.js"></script>
-
-  </body>
+        
+        
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+        <script src="http://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
+        <script src="noframework.waypoints.min.js"></script>
+        <script src="validator.min.js"></script>
+        <script src="script.js"></script>
+    </body>
 </html>
