@@ -1,0 +1,24 @@
+.leftcol {
+    overflow-y: hidden;
+    position: fixed;
+    width: 60%;
+    height: 100%;
+    float: left;
+    box-shadow: 0 0 10px rgba(0,0,0,0.55);
+}
+.rightcol {
+    width: 40%;
+    height: 100%;
+    float: right;
+    padding-left: 15px;
+    padding-right: 15px;
+    overflow-y: scroll;
+}
+#map {
+    height: 100%;
+    width: 100%;
+}
+.right col, .textcenter {
+    display: inline-block;
+    text-align: center
+}
